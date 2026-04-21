@@ -11,7 +11,7 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
 
 def handle_client(conn, addr):
-    print(f"hovno pripojeno: {addr} pripojen i guess")
+    print(f"pripojeno: {addr} pripojen i guess")
 
     connected = True
     while connected:
@@ -27,5 +27,5 @@ def start():
         print(f"aktivni pripojeni: {threading.active_count()-1}")
 
 
-print("SERVER STARTING ....")
+print("SERVER STARTUJE ....")
 start()
