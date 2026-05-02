@@ -16,7 +16,7 @@ numberOfBlocks1 = 3
 surfaceList = []
 blockCord_x = []
 blockCord_y = []
-gameStateList = [[]]
+gameStateList = [[0,0,0]]
 
 # socket connection setup #
 HOST = ''
@@ -49,7 +49,7 @@ def mouseClick():
 
 screen.fill('white')
     
-# kresleni 1. rady, test #
+# first row, test #
 space = 0
 for i in range(numberOfBlocks1):
     block_x = sizeSurface1_x + space
