@@ -16,7 +16,9 @@ numberOfBlocks1 = 3
 surfaceList = []
 blockCord_x = []
 blockCord_y = []
-gameStateList = [[0,0,0]]
+blockCord2_x = []
+blockCord2_y = []
+gameStateList = [[0,0,0],[0,0,0]]
 
 # socket connection setup #
 HOST = ''
@@ -35,8 +37,6 @@ clock = pg.time.Clock()
 
 for i in range(10):
     surfaceList.append(pg.Surface((blockSize_x, blockSize_y)))
-    surfaceList[i].fill('blue')
-
 
 def mouseClick(): 
     mouse_pozice = pg.mouse.get_pos()
@@ -46,8 +46,6 @@ def mouseClick():
                 print('tlacitko i guess')
                 gameStateList[0][i] = 2
                 print(gameStateList)
-
-screen.fill('white')
     
 # first row, test #
 space = 0
@@ -56,8 +54,16 @@ for i in range(numberOfBlocks1):
     block_y = sizeSurface1_y
     blockCord_x.append(block_x)
     blockCord_y.append(block_y)
-    screen.blit(surfaceList[i],(block_x, block_y))
     space += spacing
+
+space2 = 0
+for i in range(numberOfBlocks1):
+    block2_x = sizeSurface1_x + space2
+    block2_y = sizeSurface1_y + size + 20
+    blockCord2_x.append(block2_x)
+    blockCord2_y.append(block2_y)
+    space2 += spacing
+
 
 while True:    
     for event in pg.event.get():
@@ -67,6 +73,24 @@ while True:
         if event.type == pg.MOUSEBUTTONDOWN:
             mouseClick()
 
+    screen.fill('white')
+
+    for i in range(numberOfBlocks1):
+        if (gameStateList[0][i] == 2):
+            surfaceList[i].fill('blue')
+        elif(gameStateList[0][i]==0):
+            surfaceList[i].fill('grey')
     
+        screen.blit(surfaceList[i],(blockCord_x[i], blockCord_y[i]))
+
+    for i in range(numberOfBlocks1):
+        if (gameStateList[1][i] == 2):
+            surfaceList[i+numberOfBlocks1].fill('blue')
+        elif(gameStateList[1][i]==0):
+            surfaceList[i+numberOfBlocks1].fill('grey')
+    
+        screen.blit(surfaceList[i+numberOfBlocks1],(blockCord2_x[i], blockCord2_y[i]))
+
+ 
     pg.display.update()
     clock.tick(60)
