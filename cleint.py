@@ -2,13 +2,21 @@ import socket
 import sys
 import pygame as pg
 
-# Pygame proměnné # 
-sirkaHry = 1280
-vyskaHry = 720
-prostredHry_x = sirkaHry/2
-prostredHry_y = vyskaHry/2
-velikostSurface1_x = 50
-velikostSurface1_y = 50
+# Pygame variables # 
+width = 300
+height = 300
+sizeSurface1_x = 50
+sizeSurface1_y = 50
+# variables for game ui # 
+size = 50
+spacing = 80
+blockSize_x = size
+blockSize_y = size
+numberOfBlocks1 = 3
+surfaceList = []
+blockCord_x = []
+blockCord_y = []
+gameStateList = [[]]
 
 # socket connection setup #
 HOST = ''
@@ -20,31 +28,36 @@ while HOST == '' or PORT == 0:
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #client.connect((HOST, PORT))
 
-# pygame setup #
 pg.init()
-screen = pg.display.set_mode((sirkaHry, vyskaHry))
+screen = pg.display.set_mode((width, height))
 pg.display.set_caption("Spoj 4")
 clock = pg.time.Clock()
 
-# Proměnné pro game ui # 
-pocetCtverecku = 10
-size = 50
-spacing = size + 50
-surfaceBlockSize_x = size
-surfaceBlockSize_y = size
-surface = []
-blockSouradnice_x = []
-blockSouradnice_y = []
-    
 for i in range(10):
-    surface.append(pg.Surface((surfaceBlockSize_x, surfaceBlockSize_y)))
+    surfaceList.append(pg.Surface((blockSize_x, blockSize_y)))
+    surfaceList[i].fill('blue')
 
-def mouseClick():
+
+def mouseClick(): 
     mouse_pozice = pg.mouse.get_pos()
-    for i in range (pocetCtverecku):
-        if mouse_pozice[0] > blockSouradnice_x[i] and mouse_pozice[1] > blockSouradnice_y[i]:
-            if mouse_pozice[0] < (blockSouradnice_x[i] + velikostSurface1_x) and mouse_pozice[1] < (blockSouradnice_y[i] + velikostSurface1_y):
+    for i in range(numberOfBlocks1):
+        if mouse_pozice[0] > blockCord_x[i] and mouse_pozice[1] > blockCord_y[i]:
+            if mouse_pozice[0] < (blockCord_x[i] + blockSize_x) and mouse_pozice[1] < (blockCord_y[i] + blockSize_y):
                 print('tlacitko i guess')
+                gameStateList[0][i] = 2
+                print(gameStateList)
+
+screen.fill('white')
+    
+# kresleni 1. rady, test #
+space = 0
+for i in range(numberOfBlocks1):
+    block_x = sizeSurface1_x + space
+    block_y = sizeSurface1_y
+    blockCord_x.append(block_x)
+    blockCord_y.append(block_y)
+    screen.blit(surfaceList[i],(block_x, block_y))
+    space += spacing
 
 while True:    
     for event in pg.event.get():
@@ -54,17 +67,6 @@ while True:
         if event.type == pg.MOUSEBUTTONDOWN:
             mouseClick()
 
-    screen.fill('grey50')
     
-    # kresleni 1. rady, test #
-    space = 0
-    for i in range(pocetCtverecku):
-        space += spacing
-        block_x = velikostSurface1_x + space
-        block_y = velikostSurface1_y
-        blockSouradnice_x.append(block_x)
-        blockSouradnice_y.append(block_y)
-        screen.blit(surface[i],(block_x, block_y))
-
     pg.display.update()
-    clock.tick(60) #framerate hodin
+    clock.tick(60)
