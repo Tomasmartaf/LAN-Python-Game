@@ -1,7 +1,7 @@
 import socket
 import threading
 import sys
-import pygame
+import pygame as pg
 
 HOST = "192.168.0.170"
 PORT = 6767
