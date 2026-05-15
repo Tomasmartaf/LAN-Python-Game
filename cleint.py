@@ -21,11 +21,11 @@ blockCord2_y = []
 blockCord3_x = []
 blockCord3_y = []
 gameStateList = [[0,0,0],[0,0,0],[0,0,0]]
-hraje = True
+isPlaying = True
 
 # socket connection setup #
-'''
-HOST = ''
+
+HOST = '192.168.0.128'
 PORT = 0
 while HOST == '' or PORT == 0:
     HOST = input("Zadej ip serveru:")
@@ -33,7 +33,6 @@ while HOST == '' or PORT == 0:
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect((HOST, PORT))
-'''
 
 pg.init()
 screen = pg.display.set_mode((width, height))
@@ -44,7 +43,7 @@ for i in range(10):
     surfaceList.append(pg.Surface((blockSize_x, blockSize_y)))
 
 def mouseClick():
-    if hraje == False:
+    if isPlaying == False:
         print("Not your turn now !")
     else:
         mouse_pozice = pg.mouse.get_pos()
@@ -125,7 +124,6 @@ while True:
             surfaceList[i+numberOfBlocks1].fill('grey')
 
         screen.blit(surfaceList[i+numberOfBlocks1],(blockCord3_x[i], blockCord3_y[i]))
-
  
     pg.display.update()
     clock.tick(60)
